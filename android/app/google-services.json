@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "555118360687",
+    "project_id": "final-project-2025-ejseo",
+    "storage_bucket": "final-project-2025-ejseo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555118360687:android:5c8cc281d77d24572cf59a",
+        "android_client_info": {
+          "package_name": "com.example.final_project_2025"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm1xyicjWTWOiMdKq1GrKBIszyOWdLGtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
