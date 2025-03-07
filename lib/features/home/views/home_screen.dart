@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:final_project_2025/constants/gaps.dart';
 import 'package:final_project_2025/constants/sizes.dart';
 import 'package:final_project_2025/features/home/view_models/timeline_view_model.dart';
@@ -24,6 +26,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin {
   late final ScrollController _scrollController = ScrollController();
+  bool _isOnlyMine = false;
 
   @override
   void initState() {
@@ -64,11 +67,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     }
   }
 
+  void _onPressed() {
+    setState(() {
+      _isOnlyMine = !_isOnlyMine;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return ref
-        .watch(timelineProvider)
+        .watch(timelineProvider(_isOnlyMine))
         .when(
           loading: () => Center(child: CircularProgressIndicator()),
           error:
@@ -86,6 +95,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     SliverAppBar(
                       floating: true,
                       centerTitle: true,
+                      leadingWidth: 100,
+                      leading: TextButton(
+                        onPressed: _onPressed,
+                        child:
+                            _isOnlyMine
+                                ? Text("Everyone's Moods")
+                                : Text("My Moods"),
+                      ),
                       title: Text("🔥 Mood 🔥".toUpperCase()),
 
                       actions: [

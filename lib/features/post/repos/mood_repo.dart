@@ -18,13 +18,15 @@ class MoodRepository {
     await _db.collection("moods").doc(moodData.moodId).delete();
   }
 
-  Stream<List<MoodModel>> fetchMood() {
+  Stream<List<MoodModel>> fetchMood(bool isOnlyMine, String uid) {
     print("MoodRepository : fetchMood");
-    final result =
-        _db
-            .collection("moods")
-            .orderBy("createAt", descending: true)
-            .snapshots();
+    final CollectionReference<Map<String, dynamic>> query;
+    if (isOnlyMine) {
+      query = _db.collection("users").doc(uid).collection("moods");
+    } else {
+      query = _db.collection("moods");
+    }
+    final result = query.orderBy("createAt", descending: true).snapshots();
     final result2 = result.map(
       (event) =>
           event.docs.map((doc) => MoodModel.fromJson(doc.data())).toList(),
