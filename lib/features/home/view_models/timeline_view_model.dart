@@ -4,24 +4,24 @@ import 'package:final_project_2025/features/post/repos/mood_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TimelineViewModel
-    extends AutoDisposeFamilyStreamNotifier<List<MoodModel>, bool> {
+    extends AutoDisposeFamilyStreamNotifier<List<MoodModel>, String> {
   late final MoodRepository _repository;
   @override
-  Stream<List<MoodModel>> build(bool isOnlyMine) {
+  Stream<List<MoodModel>> build(String viewmode) {
     _repository = ref.read(moodRepo);
 
-    return getMood(isOnlyMine);
+    return getMood(viewmode);
   }
 
-  Stream<List<MoodModel>> getMood(bool isOnlyMine) {
+  Stream<List<MoodModel>> getMood(String viewmode) {
     final uid = ref.read(authRepo).user!.uid;
     print("TimelineViewModel : getMood : uid = $uid");
-    return _repository.fetchMood(isOnlyMine, uid);
+    return _repository.fetchMood(viewmode, uid);
   }
 }
 
 final timelineProvider = AutoDisposeStreamNotifierProvider.family<
   TimelineViewModel,
   List<MoodModel>,
-  bool
+  String
 >(() => TimelineViewModel());

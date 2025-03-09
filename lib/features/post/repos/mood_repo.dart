@@ -18,10 +18,10 @@ class MoodRepository {
     await _db.collection("moods").doc(moodData.moodId).delete();
   }
 
-  Stream<List<MoodModel>> fetchMood(bool isOnlyMine, String uid) {
+  Stream<List<MoodModel>> fetchMood(String viewmode, String uid) {
     print("MoodRepository : fetchMood");
     final CollectionReference<Map<String, dynamic>> query;
-    if (isOnlyMine) {
+    if (viewmode == "mine") {
       query = _db.collection("users").doc(uid).collection("moods");
     } else {
       query = _db.collection("moods");

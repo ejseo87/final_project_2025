@@ -26,7 +26,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin {
   late final ScrollController _scrollController = ScrollController();
-  bool _isOnlyMine = false;
+  final bool _isOnlyMine = false;
 
   @override
   void initState() {
@@ -67,17 +67,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     }
   }
 
-  void _onPressed() {
-    setState(() {
+  void _onPressed(String viewMode) {
+    if (viewMode == "all") {
+      ref.read(settingsProvider.notifier).setViewmode("mine");
+    } else {
+      ref.read(settingsProvider.notifier).setViewmode("all");
+    }
+    /*     setState(() {
       _isOnlyMine = !_isOnlyMine;
-    });
+    }); */
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final viewMode = ref.watch(settingsProvider).viewmode;
     return ref
-        .watch(timelineProvider(_isOnlyMine))
+        .watch(timelineProvider(viewMode))
         .when(
           loading: () => Center(child: CircularProgressIndicator()),
           error:
@@ -97,11 +103,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       centerTitle: true,
                       leadingWidth: 100,
                       leading: TextButton(
-                        onPressed: _onPressed,
+                        onPressed: () => _onPressed(viewMode),
                         child:
-                            _isOnlyMine
-                                ? Text("Everyone's Moods")
-                                : Text("My Moods"),
+                            viewMode == "all"
+                                ? Text("Everyone's Mood")
+                                : Text("My Mood"),
                       ),
                       title: Text("🔥 Mood 🔥".toUpperCase()),
 

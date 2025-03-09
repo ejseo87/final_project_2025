@@ -8,12 +8,20 @@ class SettingsViewModel extends Notifier<SettingsModel> {
 
   void setDarkmode(bool value) {
     _repository.setDarkmode(value);
-    state = SettingsModel(darkmode: value);
+    state = SettingsModel(darkmode: value, viewmode: state.viewmode);
+  }
+
+  void setViewmode(String value) {
+    _repository.setViewmode(value);
+    state = SettingsModel(darkmode: state.darkmode, viewmode: value);
   }
 
   @override
   SettingsModel build() {
-    return SettingsModel(darkmode: _repository.isDarkmode());
+    return SettingsModel(
+      darkmode: _repository.isDarkmode(),
+      viewmode: _repository.whatIsViewmode(),
+    );
   }
 }
 

@@ -113,6 +113,7 @@ class SignUpScreenState extends ConsumerState<SignUpScreen> {
                     FractionallySizedBox(
                       widthFactor: 0.8,
                       child: TextFormField(
+                        autocorrect: false,
                         autovalidateMode: AutovalidateMode.always,
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
